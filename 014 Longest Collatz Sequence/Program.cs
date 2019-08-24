@@ -10,38 +10,91 @@ namespace _014_Longest_Collatz_Sequence
     {
         static void Main()
         {
-            Dictionary<int, int> oddNrData = new Dictionary<int, int> { };
-            for (int i = 3; i < 1e4; i+=2)
+            long max = 1500000;
+            List<long> oddNrData = new List<long> { 0 };
+            for (long i = 0; i < max/4; i++)
+            {
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+                oddNrData.Add(-1);
+            }
+            for (long i = 3; i < oddNrData.Count; i+=2)
             {
                 FindSteps(i, oddNrData);
             }
+            while(true)
+            {
+                Console.Write("\nFind the number with the most collatz steps which is smaller than x. Type in a value for x: ");
+                long findMaxNr = long.Parse(Console.ReadLine()) / 2;
+                long largestNr = 0;
+                long largestSteps = 0;
+                for (int i = 0; i < findMaxNr; i++)
+                {
+                    if (i > oddNrData.Count - 2)
+                    {
+                        Console.WriteLine("x is too big");
+                        break;
+                    }
+                    if (oddNrData[i] > largestSteps)
+                    {
+                        largestSteps = oddNrData[i];
+                        largestNr = i;
+                    }
+                }
+                Console.WriteLine((largestNr*2+1).ToString("N0") + " steps: " + largestSteps.ToString("N0"));
+            }
         }
 
-        static int FindSteps(int testNr, Dictionary<int, int> oddNrData)
+        static long FindSteps(long testNr, List<long> oddNrData)
         {
-            int originalNr = testNr;
+            long originalNr = testNr;
             testNr *= 3;
             testNr++;
-            int steps = 1;
+            long steps = 1;
             while (true)
             {
                 if (testNr % 2 != 0)
                 {
-                    if (testNr == 1)
+                    if ((testNr - 1) / 2 >= oddNrData.Count || oddNrData[((int)testNr - 1) / 2] == -1)
                     {
+                        testNr *= 3;
+                        testNr++;
+                    }
+                    else
+                    {
+                        steps += oddNrData[((int)testNr - 1) / 2];
+                        oddNrData[((int)originalNr - 1) / 2] = steps;
                         break;
                     }
-                    bool isKnown = true;
-                    for (int i = 0; i < oddNrData.Count; i++)
-                    {
-                        int x = oddNrData[i] * 2 + 1;
-
-                        if (x != testNr) continue;
-                        isKnown = false;
-                    }
-                    if (isKnown)
-                    testNr *= 3;
-                    testNr++;
                 }
                 else
                 {
