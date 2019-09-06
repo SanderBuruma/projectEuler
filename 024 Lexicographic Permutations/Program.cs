@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace _024_Lexicographic_Permutations
 {
@@ -12,48 +7,40 @@ namespace _024_Lexicographic_Permutations
     {
         static void Main()
         {
-            long y = 5100000000000, x;
-            long steps;
-            long whileCondition = 155;
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-            for (int i = 0; i < 3; i++)
-            {
-                whileCondition *= whileCondition;
-            }
-            var stepHighscores = new List<long> { };
-            for (int i = 0; i < 20; i++)
-            {
-                stepHighscores.Add(10);
-            }
+            char[] baseChars = "0123456789".ToCharArray();
+            List<string> permutations = new List<string> { };
 
-            while (y++ < whileCondition)
+            foreach (var d1 in baseChars)
+            foreach (var d2 in baseChars)
             {
-                x = y;
-                steps = 0;
-                while (true)
+                foreach (var d3 in baseChars)
+                foreach (var d4 in baseChars)
+                foreach (var d5 in baseChars)
+                foreach (var d6 in baseChars)
+                foreach (var d7 in baseChars)
+                foreach (var d8 in baseChars)
+                foreach (var d9 in baseChars)
+                foreach (var d10 in baseChars)
                 {
-                    if (x < 3 || x % 3 == 0) break;
-                    steps++;
-                    if ((x - 1) % 3 == 0)
+                    char[] digits = new char[10] { d1, d2, d3, d4, d5, d6, d7, d8, d9, d10 };
+                    for (int i = 0; i < 10; i++)
                     {
-                        x = (x - 1) / 3 * 2;
-                        steps++;
+                        for (int j = 0; j < 10; j++)
+                        {
+                            if (i == j) continue;
+                            if (digits[i] == digits[j]) goto skip1;
+                        }
                     }
-                    else x *= 2;
-                    if (x > whileCondition) break;
+
+                    string tempString = "" + d1 + d2 + d3 + d4 + d5 + d6 + d7 + d8 + d9 + d10;
+                    permutations.Add(tempString);
+
+                    skip1:;
                 }
-                if (steps > stepHighscores[0])
-                {
-                    Console.WriteLine("y: " + y.ToString("N0") + " steps: " + steps.ToString("N0") + " x: " + x.ToString("N0") + " sw: " + (((float)sw.ElapsedTicks)/Stopwatch.Frequency * 1000000).ToString("N0") +" us");
-                    sw.Restart();
-                    stepHighscores.Add(steps);
-                    stepHighscores = stepHighscores.OrderBy(i => i).ToList();
-                    stepHighscores.RemoveAt(0);
-                }
+                Console.WriteLine(permutations.Count.ToString("N0"));
+                    if (permutations.Count > 1000000) { Console.WriteLine(permutations[999999]); goto end; }
             }
-            Console.ReadKey();
-            Console.Clear();
+            end: Console.ReadKey();
         }
     }
 }
